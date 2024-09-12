@@ -31,7 +31,7 @@ public class Hangman {
         printWordState(word, playerGuesses);
 
         while (true) {
-            getPlayerGuesses(keyboard, playerGuesses, word);
+            getPlayerGuesses(keyboard, playerGuesses);
             if (printWordState(word, playerGuesses)) {
                 break;
             }
@@ -39,7 +39,7 @@ public class Hangman {
         System.out.println("You win!");
     }
 
-    private static void getPlayerGuesses(Scanner keyboard, List<Character> playerGuesses, String word) {
+    private static void getPlayerGuesses(Scanner keyboard, List<Character> playerGuesses) {
         System.out.println("Please enter a letter");
         // read user input
         String letterGuess = keyboard.nextLine();
