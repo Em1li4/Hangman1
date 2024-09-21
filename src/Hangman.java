@@ -21,33 +21,85 @@ public class Hangman {
             wordsList.add(file.nextLine());
         }
 
+        // new object of the random class
         Random rand = new Random();
         // Get a random word within the range of the size of words list, nested method calls
         String word = wordsList.get(rand.nextInt(wordsList.size()));
         System.out.println(word);
 
-        // List for the guesses the player has made
+        // create list for the guesses the player has made
         List<Character> playerGuesses = new ArrayList<>();
-        printWordState(word, playerGuesses);
 
+        int wrongCount = 0;
         while (true) {
-            getPlayerGuesses(keyboard, playerGuesses);
-            if (printWordState(word, playerGuesses)) {
+            printHangedMan(wrongCount);
+            if (wrongCount >= 6) {
+                System.out.println("You lose.");
                 break;
             }
+            printWordState(word, playerGuesses);
+            if (!getPlayerGuess(keyboard, playerGuesses, word)) {
+                wrongCount++;
+            }
+           // Win statement for the case the user fills correctly all the letters
+            if (printWordState(word, playerGuesses)) {
+                System.out.println("You win!");
+                break;
+            }
+            // Win statement for the case where the user guesses the word
+            System.out.println("Please enter your guess for the word:");
+            if (keyboard.nextLine().equals(word)) {
+                System.out.println("You win!");
+                break;
+            }
+            else {
+                System.out.println("No, try again");
+            }
         }
-        System.out.println("You win!");
+        System.out.println();
     }
 
-    private static void getPlayerGuesses(Scanner keyboard, List<Character> playerGuesses) {
-        System.out.println("Please enter a letter");
+    // method that prints the hanged man, filling everytime the user guesses wrong the word or letter.
+    private static void printHangedMan(int wrongCount) {
+        System.out.println("-------");
+        System.out.println(" |     |");
+        if (wrongCount >= 1) {
+            System.out.println(" O");
+        }
+        if (wrongCount >= 2) {
+            System.out.print("\\ ");
+        }
+        if (wrongCount >= 3) {
+            System.out.println("/");
+        } else {
+            System.out.println("");
+        }
+        if (wrongCount >= 4) {
+            System.out.println(" |");
+        }
+        if (wrongCount >= 5) {
+            System.out.print("/ ");
+        }
+        if (wrongCount >= 6) {
+            System.out.println("\\");
+        } else {
+            System.out.println("");
+        }
+    }
+
+    // Method to get the first character of the user's input, boolean to check if the guessed character the user makes is part of the word
+    private static boolean getPlayerGuess(Scanner keyboard, List<Character> playerGuesses, String word) {
+        System.out.println("Please enter a letter:");
         // read user input
         String letterGuess = keyboard.nextLine();
         // add character of user input and store in the list playerGuesses
         playerGuesses.add(letterGuess.charAt(0));
+
+        return word.contains(letterGuess);
     }
 
-    // If the player guess contains a character that is on the word, it gets replaced, else we print a dash
+    // Method to check if the player guess contains a character that is on the word, then it gets replaced by that character,
+    // else we print a dash
     private static boolean printWordState(String word, List<Character> playerGuesses) {
         int correctCount = 0;
         for (int i = 0; i < word.length(); i++) {
@@ -56,7 +108,7 @@ public class Hangman {
             correctCount++;
             }
             else {
-                System.out.print("-");
+                System.out.print("_");
             }
         }
         System.out.println();
