@@ -107,8 +107,8 @@ public class Hangman {
     // Method to get the first character of the user's input, boolean to check if the guessed character the user makes is part of the word
     private static boolean getPlayerGuess(Scanner keyboard, List<Character> playerGuesses, String word) {
         System.out.println("Please enter a letter:");
-        // read user input
-        String letterGuess = keyboard.nextLine();
+        // read user input and add toLowerCase method to handle case insensitivity
+        String letterGuess = keyboard.nextLine().toLowerCase();
         // add character of user input and store in the list playerGuesses
         playerGuesses.add(letterGuess.charAt(0));
 
