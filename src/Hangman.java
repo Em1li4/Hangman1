@@ -8,24 +8,40 @@ import java.io.File;
 public class Hangman {
     public static void main(String[] args) throws FileNotFoundException {
 
-        // Scanner for file of words
-        Scanner file = new Scanner(new File("C:\\Users\\em1li\\OneDrive\\Documents\\EnglishWordsForHangmanGame\\words_alpha.txt"));
-       // Scanner for user input
+        // Scanner for user input
         Scanner keyboard = new Scanner(System.in);
+        System.out.println("Do you want 1 player or 2 players?");
+        String player = keyboard.nextLine();
 
-        // Create list to store words
-        List<String> wordsList = new ArrayList<String>();
+        String word;
+        if (player.equals("1")) {
+            // Scanner for file of words
+            Scanner file = new Scanner(new File("C:\\Users\\em1li\\OneDrive\\Documents\\EnglishWordsForHangmanGame\\words_alpha.txt"));
 
-        // Fill words in the ArrayList
-        while (file.hasNext()) {
-            wordsList.add(file.nextLine());
+            // Create list to store words
+            List<String> wordsList = new ArrayList<String>();
+
+            // Fill words in the ArrayList
+            while (file.hasNext()) {
+                wordsList.add(file.nextLine());
+            }
+
+            // new object of the random class
+            Random rand = new Random();
+            // Get a random word within the range of the size of words list, nested method calls
+            word = wordsList.get(rand.nextInt(wordsList.size()));
+        } else {
+            System.out.println("Please enter a word");
+            word = keyboard.nextLine();
+            // for loop to print spaces so the user can't see the selected word.
+            for (int i = 0; i < 20 ; i++) {
+                System.out.println();
+            }
+            System.out.println("Ready for player two! Good luck.");
         }
 
-        // new object of the random class
-        Random rand = new Random();
-        // Get a random word within the range of the size of words list, nested method calls
-        String word = wordsList.get(rand.nextInt(wordsList.size()));
-        System.out.println(word);
+        //Commented print out line to see what line we are trying to guess
+        //System.out.println(word);
 
         // create list for the guesses the player has made
         List<Character> playerGuesses = new ArrayList<>();
